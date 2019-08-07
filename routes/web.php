@@ -33,4 +33,8 @@ Route::get('email/verify', 'Auth\VerificationController@show')->name('verificati
 Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('verification.verify');
 Route::get('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
-// http://larabbs.test/email/verify/1?expires=1565083692&signature=921eb9244c005ea27c9233850acc928ca3f9f55565d3e91302751919d563c8a2
+// 个人页面相关路由
+Route::resource('users', 'UserController', ['only' => ['show', 'update', 'edit']]);
+// Route::get('/users/{user}', 'UsersController@show')->name('users.show');
+// Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
+// Route::patch('/users/{user}', 'UsersController@update')->name('users.update');
