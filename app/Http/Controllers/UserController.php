@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
     public function show(User $user)
     {
         return view('users.show',compact('user'));
@@ -16,11 +21,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
+
         return view('users.edit',compact('user'));
     }
 
     public function update(UserRequest $request, User $user, ImageUploadHandler $uploader)
     {
+        $this->authorize('update', $user);
+
         //  UserRequest 表单请求验证
         // $user->update($request->all());
         $data = $request->all();
