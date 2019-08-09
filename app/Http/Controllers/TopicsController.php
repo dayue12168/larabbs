@@ -6,6 +6,7 @@ use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
+use function PHPSTORM_META\type;
 
 class TopicsController extends Controller
 {
@@ -14,10 +15,11 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
-	public function index()
+	public function index(Request $request, Topic $topic)
 	{
-		// $topics = Topic::paginate();
-        $topics = Topic::with('user', 'category')->paginate();
+        // $topics = Topic::paginate();
+        // $topics = Topic::with('user', 'category')->paginate();
+        $topics = $topic->withOrder($request->order)->paginate(20);
 		return view('topics.index', compact('topics'));
 	}
 
