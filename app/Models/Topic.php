@@ -46,7 +46,8 @@ class Topic extends Model
     public function scopeRecent($query)
     {
         // 按照创建时间排序
-        return $query->orderBy('created_at', 'desc');
+        // return $query->orderBy('created_at', 'desc');
+        return $query->orderBy('id', 'desc');
     }
 
     public function link($params = [])
