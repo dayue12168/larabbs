@@ -32,7 +32,7 @@ class TopicReplied extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     /**
@@ -45,10 +45,7 @@ class TopicReplied extends Notification
     {
         $topic = $this->reply->topic;
         $link =  $topic->link(['#reply' . $this->reply->id]);
-        // return (new MailMessage)
-        //             ->line('The introduction to the notification.')
-        //             ->action('Notification Action', url('/'))
-        //             ->line('Thank you for using our application!');
+
         // 存入数据库里的数据
         return [
             'reply_id' => $this->reply->id,
@@ -60,6 +57,15 @@ class TopicReplied extends Notification
             'topic_id' => $topic->id,
             'topic_title' => $topic->title,
         ];
+    }
+
+    public function toMail($notifiable)
+    {
+        $url = $this->reply->topic->link(['#reply' . $this->reply->id]);
+
+        return (new MailMessage)
+            ->line('你的话题有新回复！')
+            ->action('查看回复', $url);
     }
 
     /**
